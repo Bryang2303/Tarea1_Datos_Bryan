@@ -14,6 +14,10 @@ import javax.swing.*;
 public class Tarea extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setTitle("Nuevo");
+        stage.setWidth(400);
+        stage.setHeight(500);
+        stage.show();
 
     }
 }
