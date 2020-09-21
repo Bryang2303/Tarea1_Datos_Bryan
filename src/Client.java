@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Cliente extends Conexion {
+public class Client extends Connection {
 
     private String ip;
     private int NumPuerto;
@@ -11,24 +11,24 @@ public class Cliente extends Conexion {
      *
      * @param onRecieveCallBack cuando se recibe un mensaje
      */
-    public Cliente(String ip, int NumPuerto,Consumer<Serializable> onRecieveCallBack) {
+    public Client(String ip, int NumPuerto, Consumer<Serializable> onRecieveCallBack) {
         super(onRecieveCallBack);
         this.ip=ip;
         this.NumPuerto=NumPuerto;
     }
 
     @Override
-    protected boolean EsServidor() {
+    protected boolean isServer() {
         return false;
     }
 
     @Override
-    protected String ObtenerIp() {
-        return null;
+    protected String getIp() {
+        return ip;
     }
 
     @Override
-    protected int Puerto() {
-        return 0;
+    protected int getPort() {
+        return NumPuerto;
     }
 }

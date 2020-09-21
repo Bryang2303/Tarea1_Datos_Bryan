@@ -5,11 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public abstract class Conexion {
+public abstract class Connection {
     /**
      * Creacion del hilo
      */
-    private HiloConexion HiloConexion2 = new HiloConexion();
+    private NetConnectThread connThread = new NetConnectThread();
     /**
      * Función llamada cuando se recibe un mensaje
      */
@@ -19,45 +19,45 @@ public abstract class Conexion {
      * Se establece el constructor que tomará la función, permitiendo el envío de datos por la red.
      * @param onRecieveCallBack cuando se recibe un mensaje
      */
-    public Conexion(Consumer<Serializable>onRecieveCallBack){
+    public Connection(Consumer<Serializable>onRecieveCallBack){
         this.onRecieveCallBack = onRecieveCallBack;
-        this.HiloConexion2.setDaemon(true);
+        connThread.setDaemon(true);
     }
-    public void InicioConexion() throws Exception{
-        HiloConexion2.start();
+    public void startConnection() throws Exception{
+        connThread.start();
     }
     /**
      * Permite enviar el objeto
      * @param data corresponde al mensaje
      */
-    public void enviar(Serializable data) throws Exception{
-        HiloConexion2.out.writeObject(data);
+    public void send(Serializable data) throws Exception{
+        connThread.out.writeObject(data);
     }
 
     /**
      *Cierre de conexion
      */
-    public void TerminarConexion() throws Exception{
-        HiloConexion2.socket.close();
+    public void closeConnection() throws Exception{
+        connThread.socket.close();
 
     }
 
     /**
      *Identificar que es el Servidor o el Cliente
      */
-    protected abstract boolean EsServidor();
+    protected abstract boolean isServer();
     /**
      *Obtener la dirección Ip para la conexión
      */
-    protected abstract String ObtenerIp();
+    protected abstract String getIp();
     /**
      *Obtener el número de puerto para la conexión
      */
-    protected abstract int Puerto();
+    protected abstract int getPort();
     /**
      * Hilo que permite leer y escribir simultaneamente
      */
-    private class HiloConexion extends Thread{
+    private class NetConnectThread extends Thread{
         private Socket socket;
         private ObjectOutputStream out;
         /**
@@ -69,13 +69,13 @@ public abstract class Conexion {
              * Tratar de conectarse con el Server. Se inicia un nuevo servidor con el puerto
              * En el cliente se crea un nuevo socket con la direccion Ip y el puerto, tratando de hacer la conexion
              */
-            try(ServerSocket server = EsServidor() ? new ServerSocket(Puerto()) : null;
-                Socket socket = EsServidor() ? server.accept() : new Socket(ObtenerIp(),Puerto());
-                ObjectOutputStream salida = new ObjectOutputStream(socket.getOutputStream());
+            try(ServerSocket server = isServer() ? new ServerSocket(getPort()) : null;
+                Socket socket = isServer() ? server.accept() : new Socket(getIp(), getPort());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
-                this.socket=socket;
-                this.out=out;
+                this.socket = socket;
+                this.out = out;
                 socket.setTcpNoDelay(true);
                 /**
                  * Permite llamar a la funcion y transmitir los datos
@@ -91,7 +91,4 @@ public abstract class Conexion {
 
         }
     }
-
-
-
 }

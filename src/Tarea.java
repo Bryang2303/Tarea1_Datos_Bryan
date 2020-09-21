@@ -1,47 +1,82 @@
 import javafx.application.Application;
-import javafx.scene.Cursor;
+import javafx.application.Platform;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.stage.StageStyle;
-
-import javax.swing.*;
 
 public class Tarea extends Application {
+
+    private boolean isServer =false;
     /***
      * El cuadro de mensajeria del chat
      */
-    private TextArea mensajes = new TextArea();
+    private TextArea messages = new TextArea();
+    /**
+     * La conexion detecta cuando es un Servidor, si no, crea un cliente
+     */
+    private Connection connection = isServer ? createServer():createClient();
 
     private Parent createContent(){
-        mensajes.setPrefHeight(550);
+        messages.setPrefHeight(550);
         TextField input = new TextField();
-        VBox root = new VBox(20,mensajes,input);
+        input.setOnAction(event ->{
+            String message = isServer ? "Servidor: " : "Cliente: ";
+            message+=input.getText();
+            input.clear();
+            messages.appendText(message+"\n");
+            try {
+                connection.send(message);
+            } catch (Exception e) {
+                messages.appendText("Fallo del envio"+"\n");
+            }
+
+        });
+        VBox root = new VBox(20, messages,input);
         root.setPrefSize(600,600);
         return root;
-
-
     }
+    @Override
+    public void init() throws Exception {
+        connection.startConnection();
+    }
+
     @Override
     /***
      * La ventana Principal
      */
     public void start(Stage MainStage) throws Exception {
-        MainStage.setTitle("Chatting");
         MainStage.setScene(new Scene(createContent()));
-        MainStage.setWidth(400);
-        MainStage.setHeight(500);
         MainStage.show();
 
     }
+    public void stop() throws Exception{
+        connection.closeConnection();
+    }
+    /**
+     * El contenido del mensaje se agrega en el espacio de mensajeria
+     * El nuevo servidor
+     * @return utiliza este numero de puerdo para realizar la comunicacion
+     */
+    private Server createServer(){
+        return new Server(55555, data->{
+            Platform.runLater(() ->{
+                messages.appendText(data.toString()+"\n");
 
+            });
+        });
+    }
+
+    private Client createClient(){
+        return new Client("127.0.0.1", 55555, data->{
+            Platform.runLater(() ->{
+                messages.appendText(data.toString()+"\n");
+
+            });
+        });
+    }
     public static void main(String[]args){
         launch(args);
 
