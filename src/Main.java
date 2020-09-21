@@ -1,9 +1,9 @@
 
-import javafx.application.Application;
+//import javafx.application.Application;
 
-public class Main {
-    public static void main(String[]args){
-        Application.launch(Tarea.class,args);
+//public class Main {
+   // public static void main(String[]args){
+        //pplication.launch(Tarea.class,args);
 
-    }
-}
+    //}
+//}
