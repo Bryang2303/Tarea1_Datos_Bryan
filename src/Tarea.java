@@ -15,7 +15,9 @@ import javafx.stage.StageStyle;
 import javax.swing.*;
 
 public class Tarea extends Application {
-
+    /***
+     * El cuadro de mensajeria del chat
+     */
     private TextArea mensajes = new TextArea();
 
     private Parent createContent(){
