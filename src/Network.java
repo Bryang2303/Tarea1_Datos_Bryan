@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public abstract class Connection {
+public abstract class Network {
     /**
      * Creacion del hilo
      */
@@ -19,7 +19,7 @@ public abstract class Connection {
      * Se establece el constructor que tomará la función, permitiendo el envío de datos por la red.
      * @param onRecieveCallBack cuando se recibe un mensaje
      */
-    public Connection(Consumer<Serializable>onRecieveCallBack){
+    public Network(Consumer<Serializable>onRecieveCallBack){
         this.onRecieveCallBack = onRecieveCallBack;
         connThread.setDaemon(true);
     }

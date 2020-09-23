@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Server extends Connection {
+public class Server extends Network {
 
     private int NumPuerto;
     /**
@@ -14,16 +14,27 @@ public class Server extends Connection {
         this.NumPuerto=NumPuerto;
     }
 
+    /**
+     * Establecera si es un servidor
+     * @return True indicara que se trata del Servidor
+     */
     @Override
     protected boolean isServer() {
         return true;
     }
 
+    /**
+     * @return El Servidor no necesita obtener la ip
+     */
     @Override
     protected String getIp() {
         return null;
     }
 
+    /**
+     * El servidor necesita saber el numero de puerto
+     * @return Obtiene el numero de puerto
+     */
     @Override
     protected int getPort() {
         return NumPuerto;

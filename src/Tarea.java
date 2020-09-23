@@ -17,8 +17,12 @@ public class Tarea extends Application {
     /**
      * La conexion detecta cuando es un Servidor, si no, crea un cliente
      */
-    private Connection connection = isServer ? createServer():createClient();
+    private Network connection = isServer ? createServer():createClient();
 
+    /**
+     * El "padre" de la interfaz
+     * @return el VBox creado para escribir
+     */
     private Parent createContent(){
         messages.setPrefHeight(550);
         TextField input = new TextField();
@@ -38,6 +42,10 @@ public class Tarea extends Application {
         root.setPrefSize(600,600);
         return root;
     }
+
+    /**
+     * Iniciador de la concexion
+     */
     @Override
     public void init() throws Exception {
         connection.startConnection();
@@ -49,16 +57,26 @@ public class Tarea extends Application {
      */
     public void start(Stage MainStage) throws Exception {
         MainStage.setScene(new Scene(createContent()));
+        MainStage.setHeight(400);
+        MainStage.setWidth(300);
+        MainStage.setTitle("Chatting");
         MainStage.show();
 
+        Stage stage2 = new Stage();
+
+
     }
+
+    /**
+     *Cerrar el hilo(comunicacion)
+     */
     public void stop() throws Exception{
         connection.closeConnection();
     }
     /**
      * El contenido del mensaje se agrega en el espacio de mensajeria
      * El nuevo servidor
-     * @return utiliza este numero de puerdo para realizar la comunicacion
+     * @return utiliza este numero de puerto para realizar la comunicacion
      */
     private Server createServer(){
         return new Server(55555, data->{
@@ -69,6 +87,11 @@ public class Tarea extends Application {
         });
     }
 
+    /**
+     * El contenido del mensaje se agrega en el espacio de mensajeria
+     * El nuevo cliente
+     * @return utiliza este numero de puerto y la direccion ip para realizar la comunicacion
+     */
     private Client createClient(){
         return new Client("127.0.0.1", 55555, data->{
             Platform.runLater(() ->{

@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Client extends Connection {
+public class Client extends Network {
 
     private String ip;
     private int NumPuerto;
@@ -16,17 +16,26 @@ public class Client extends Connection {
         this.ip=ip;
         this.NumPuerto=NumPuerto;
     }
-
+    /**
+     * Establecera si es un cliente
+     * @return False indica que se trata del Cliente
+     */
     @Override
     protected boolean isServer() {
         return false;
     }
-
+    /**
+     * El cliente necesita saber la direccion ip del servidor
+     * @return Obtiene la direccion ip
+     */
     @Override
     protected String getIp() {
         return ip;
     }
-
+    /**
+     * El cliente necesita saber el numero de puerto
+     * @return Obtiene el numero de puerto
+     */
     @Override
     protected int getPort() {
         return NumPuerto;
