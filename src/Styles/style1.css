@@ -1,0 +1,15 @@
+.root{
+    -fx-background-color: gray;
+}
+.text-field{
+    -fx-background-color: black;
+    -fx-font-family: Consolas;
+    -fx-font-size:17;
+}
+#textarea-messages{
+    -fx-background-color: #33ff00;
+    -fx-font-family: "Bodoni MT";
+    -fx-font-size:15;
+    -fx-border-color: #33ff00;
+}
+

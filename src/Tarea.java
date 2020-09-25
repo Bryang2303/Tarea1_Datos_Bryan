@@ -1,6 +1,9 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -9,7 +12,7 @@ import javafx.scene.Scene;
 
 public class Tarea extends Application {
 
-    private boolean isServer =false;
+    private boolean isServer =true;
     /***
      * El cuadro de mensajeria del chat
      */
@@ -24,7 +27,8 @@ public class Tarea extends Application {
      * @return el VBox creado para escribir
      */
     private Parent createContent(){
-        messages.setPrefHeight(550);
+        messages.setPrefHeight(500);
+        messages.setId("textarea-messages");
         TextField input = new TextField();
         input.setOnAction(event ->{
             String message = isServer ? "Servidor: " : "Cliente: ";
@@ -40,6 +44,10 @@ public class Tarea extends Application {
         });
         VBox root = new VBox(20, messages,input);
         root.setPrefSize(600,600);
+        Label but = new Label("qfffffff");
+
+        root.getChildren().add(but);
+        root.getStylesheets().add("Styles/style1.css");
         return root;
     }
 
@@ -57,12 +65,12 @@ public class Tarea extends Application {
      */
     public void start(Stage MainStage) throws Exception {
         MainStage.setScene(new Scene(createContent()));
-        MainStage.setHeight(400);
+        MainStage.setHeight(500);
         MainStage.setWidth(300);
         MainStage.setTitle("Chatting");
         MainStage.show();
 
-        Stage stage2 = new Stage();
+
 
 
     }
@@ -79,6 +87,24 @@ public class Tarea extends Application {
      * @return utiliza este numero de puerto para realizar la comunicacion
      */
     private Server createServer(){
+        Stage stage2 = new Stage();
+        stage2.setTitle("Indique el puerto");
+        stage2.setWidth(200);
+        stage2.setHeight(200);
+
+        VBox root2 = new VBox(); //Parent of the window
+
+        Label label1 = new Label("Estoy durmiendo");
+        TextField introPort = new TextField();
+        root2.getChildren().addAll(label1,introPort);
+
+
+        Scene scene2 = new Scene(root2);
+        scene2.getStylesheets().add("Styles/style1.css");
+        stage2.setScene(scene2);
+
+
+        stage2.show();
         return new Server(55555, data->{
             Platform.runLater(() ->{
                 messages.appendText(data.toString()+"\n");
