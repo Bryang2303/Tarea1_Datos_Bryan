@@ -1,6 +1,9 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
+/**
+ * Clase Servidor
+ */
 public class Server extends Network {
 
     private int NumPuerto;
@@ -19,7 +22,7 @@ public class Server extends Network {
      * @return True indicara que se trata del Servidor
      */
     @Override
-    protected boolean isServer() {
+    protected boolean Rol() {
         return true;
     }
 
@@ -27,7 +30,7 @@ public class Server extends Network {
      * @return El Servidor no necesita obtener la ip
      */
     @Override
-    protected String getIp() {
+    protected String ObtenerIp() {
         return null;
     }
 
@@ -36,7 +39,7 @@ public class Server extends Network {
      * @return Obtiene el numero de puerto
      */
     @Override
-    protected int getPort() {
+    protected int ObtenerPuerto() {
         return NumPuerto;
     }
 }

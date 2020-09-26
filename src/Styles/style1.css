@@ -1,15 +1,21 @@
+/**Personalizacion de la scene principal
+ */
 .root{
-    -fx-background-color: gray;
+    -fx-background-color: #a1abd1;
 }
+/**Personalizacion de cuadro de entrada de texto
+ */
 .text-field{
-    -fx-background-color: black;
+    -fx-background-color: #9fd2d4;
     -fx-font-family: Consolas;
     -fx-font-size:17;
 }
+/**Personalizacion del cuadro de mensajes
+ */
 #textarea-messages{
-    -fx-background-color: #33ff00;
+    -fx-background-color: #0034f0;
     -fx-font-family: "Bodoni MT";
     -fx-font-size:15;
-    -fx-border-color: #33ff00;
+    -fx-border-color: #0034f0;
 }
 

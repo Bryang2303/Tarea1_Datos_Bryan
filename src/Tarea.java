@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,117 +12,137 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 public class Tarea extends Application {
-
-    private boolean isServer =true;
+    /**
+     * La variable que controla si se ejecuta el Servidor o el Cliente.
+     * Se debe ejecutar primero como true y despues como false. De manera que el Servidor se crea primero.
+     * Si el cliente es creado antes del Servidor, la conexion falla.
+     */
+    private boolean Rol =false;
     /***
      * El cuadro de mensajeria del chat
      */
-    private TextArea messages = new TextArea();
+    private TextArea Mensajes = new TextArea();
     /**
      * La conexion detecta cuando es un Servidor, si no, crea un cliente
      */
-    private Network connection = isServer ? createServer():createClient();
+    private Network comunicacion = Rol ? createServer():createClient();
 
     /**
-     * El "padre" de la interfaz
-     * @return el VBox creado para escribir
+     * Parte de la interfaz y activadores del envio de mensajes
+     * @return La ventana del chat(root)
      */
-    private Parent createContent(){
-        messages.setPrefHeight(500);
-        messages.setId("textarea-messages");
+    private Parent ContenidoScene(){
+        Mensajes.setPrefHeight(500);
+        Mensajes.setId("textarea-messages");
         TextField input = new TextField();
         input.setOnAction(event ->{
-            String message = isServer ? "Servidor: " : "Cliente: ";
-            message+=input.getText();
+            String mensaje = Rol ? "Servidor: " : "Cliente: ";
+            mensaje+=input.getText();
             input.clear();
-            messages.appendText(message+"\n");
+            Mensajes.appendText(mensaje+"\n");
+            /**
+             * Se mantiene en constante comunicacion cada vez que se envia un mensaje, si falla, un mensaje de error sera enviado
+             */
             try {
-                connection.send(message);
+                comunicacion.send(mensaje);
             } catch (Exception e) {
-                messages.appendText("Fallo del envio"+"\n");
+                Mensajes.appendText("Fallo del envio"+"\n");
             }
 
         });
-        VBox root = new VBox(20, messages,input);
+        VBox root = new VBox(20, Mensajes,input);
         root.setPrefSize(600,600);
-        Label but = new Label("qfffffff");
-
+        Label but = new Label("Escriba su mensaje");
         root.getChildren().add(but);
         root.getStylesheets().add("Styles/style1.css");
         return root;
     }
-
     /**
      * Iniciador de la concexion
      */
     @Override
     public void init() throws Exception {
-        connection.startConnection();
+        comunicacion.Iniciar_C();
     }
-
     @Override
-    /***
-     * La ventana Principal
+    /**
+     * Las ventanas principales(Stages), las cuales se crean al ejecutar el programa.
+     * Al crear el Servidor, una ventana previa pide al usuario ingresar el numero de puerto de la conexion
      */
     public void start(Stage MainStage) throws Exception {
-        MainStage.setScene(new Scene(createContent()));
-        MainStage.setHeight(500);
-        MainStage.setWidth(300);
-        MainStage.setTitle("Chatting");
-        MainStage.show();
-
-
-
-
+        if (Rol ==false){
+            MainStage.setScene(new Scene(ContenidoScene()));
+            MainStage.setHeight(500);
+            MainStage.setWidth(300);
+            MainStage.setTitle("Cliente");
+            MainStage.show();
+        }
+        /**
+         * La ventana inicial del Servidor difiere de la del Cliente
+         */
+        if (Rol ==true){
+            MainStage.setTitle("Indique el puerto");
+            MainStage.setWidth(200);
+            MainStage.setHeight(118);
+            VBox root2 = new VBox();
+            Label label1 = new Label("Ingrese el numero de puerto");
+            Button continuar = new Button("Continuar");
+            TextField introPort = new TextField();
+            root2.getChildren().addAll(label1,introPort,continuar);
+            EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+                /**
+                 *Evento que toma el puerto escrito en la ventana activada por el Servidor
+                 */
+                public void handle(ActionEvent e)
+                {
+                    label1.setText("Puerto conectado: "+introPort.getText());
+                    String p=introPort.getText();
+                    int p2 = Integer.parseInt(p);
+                    Stage stage2 = new Stage();
+                    stage2.setScene(new Scene(ContenidoScene()));
+                    stage2.setHeight(500);
+                    stage2.setWidth(300);
+                    stage2.setTitle("Servidor");
+                    stage2.show();
+                }
+            };
+            continuar.setOnAction(event);
+            Scene scene2 = new Scene(root2);
+            scene2.getStylesheets().add("Styles/style1.css");
+            MainStage.setScene(scene2);
+            MainStage.show();
+        }
     }
 
     /**
      *Cerrar el hilo(comunicacion)
      */
     public void stop() throws Exception{
-        connection.closeConnection();
+        comunicacion.Cerrar_C();
     }
     /**
-     * El contenido del mensaje se agrega en el espacio de mensajeria
      * El nuevo servidor
+     * El contenido del mensaje se agrega en el espacio de mensajeria
      * @return utiliza este numero de puerto para realizar la comunicacion
      */
     private Server createServer(){
-        Stage stage2 = new Stage();
-        stage2.setTitle("Indique el puerto");
-        stage2.setWidth(200);
-        stage2.setHeight(200);
-
-        VBox root2 = new VBox(); //Parent of the window
-
-        Label label1 = new Label("Estoy durmiendo");
-        TextField introPort = new TextField();
-        root2.getChildren().addAll(label1,introPort);
-
-
-        Scene scene2 = new Scene(root2);
-        scene2.getStylesheets().add("Styles/style1.css");
-        stage2.setScene(scene2);
-
-
-        stage2.show();
         return new Server(55555, data->{
             Platform.runLater(() ->{
-                messages.appendText(data.toString()+"\n");
+                Mensajes.appendText(data.toString()+"\n");
 
             });
         });
     }
 
     /**
-     * El contenido del mensaje se agrega en el espacio de mensajeria
      * El nuevo cliente
+     * El contenido del mensaje se agrega en el espacio de mensajeria
      * @return utiliza este numero de puerto y la direccion ip para realizar la comunicacion
      */
     private Client createClient(){
         return new Client("127.0.0.1", 55555, data->{
             Platform.runLater(() ->{
-                messages.appendText(data.toString()+"\n");
+                Mensajes.appendText(data.toString()+"\n");
 
             });
         });

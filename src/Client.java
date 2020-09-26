@@ -1,14 +1,15 @@
 import java.io.Serializable;
 import java.util.function.Consumer;
 
+/**
+ * Clase cliente
+ */
 public class Client extends Network {
-
     private String ip;
     private int NumPuerto;
 
     /**
      * Se establece el constructor que tomará la función, permitiendo el envío de datos por la red.
-     *
      * @param onRecieveCallBack cuando se recibe un mensaje
      */
     public Client(String ip, int NumPuerto, Consumer<Serializable> onRecieveCallBack) {
@@ -21,7 +22,7 @@ public class Client extends Network {
      * @return False indica que se trata del Cliente
      */
     @Override
-    protected boolean isServer() {
+    protected boolean Rol() {
         return false;
     }
     /**
@@ -29,7 +30,7 @@ public class Client extends Network {
      * @return Obtiene la direccion ip
      */
     @Override
-    protected String getIp() {
+    protected String ObtenerIp() {
         return ip;
     }
     /**
@@ -37,7 +38,7 @@ public class Client extends Network {
      * @return Obtiene el numero de puerto
      */
     @Override
-    protected int getPort() {
+    protected int ObtenerPuerto() {
         return NumPuerto;
     }
 }

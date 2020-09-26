@@ -9,7 +9,7 @@ public abstract class Network {
     /**
      * Creacion del hilo
      */
-    private NetConnectThread connThread = new NetConnectThread();
+    private Red_Hilo Conexion_Hilo = new Red_Hilo();
     /**
      * Función llamada cuando se recibe un mensaje
      */
@@ -21,43 +21,42 @@ public abstract class Network {
      */
     public Network(Consumer<Serializable>onRecieveCallBack){
         this.onRecieveCallBack = onRecieveCallBack;
-        connThread.setDaemon(true);
+        Conexion_Hilo.setDaemon(true);
     }
-    public void startConnection() throws Exception{
-        connThread.start();
+    public void Iniciar_C() throws Exception{
+        Conexion_Hilo.start();
     }
     /**
-     * Permite enviar el objeto
      * @param data corresponde al mensaje
      */
     public void send(Serializable data) throws Exception{
-        connThread.out.writeObject(data);
+        Conexion_Hilo.out.writeObject(data);
     }
 
     /**
      *Cierre de conexion
      */
-    public void closeConnection() throws Exception{
-        connThread.socket.close();
+    public void Cerrar_C() throws Exception{
+        Conexion_Hilo.socket.close();
 
     }
 
     /**
      *Identificar que es el Servidor o el Cliente
      */
-    protected abstract boolean isServer();
+    protected abstract boolean Rol();
     /**
      *Obtener la dirección Ip para la conexión
      */
-    protected abstract String getIp();
+    protected abstract String ObtenerIp();
     /**
      *Obtener el número de puerto para la conexión
      */
-    protected abstract int getPort();
+    protected abstract int ObtenerPuerto();
     /**
      * Hilo que permite leer y escribir simultaneamente
      */
-    private class NetConnectThread extends Thread{
+    private class Red_Hilo extends Thread{
         private Socket socket;
         private ObjectOutputStream out;
         /**
@@ -67,10 +66,10 @@ public abstract class Network {
         public void run() {
             /**
              * Tratar de conectarse con el Server. Se inicia un nuevo servidor con el puerto
-             * En el cliente se crea un nuevo socket con la direccion Ip y el puerto, tratando de hacer la conexion
+             * En el cliente se crea un nuevo socket con la direccion Ip y el puerto, tratando de realizar la conexion
              */
-            try(ServerSocket server = isServer() ? new ServerSocket(getPort()) : null;
-                Socket socket = isServer() ? server.accept() : new Socket(getIp(), getPort());
+            try(ServerSocket server = Rol() ? new ServerSocket(ObtenerPuerto()) : null;
+                Socket socket = Rol() ? server.accept() : new Socket(ObtenerIp(), ObtenerPuerto());
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
