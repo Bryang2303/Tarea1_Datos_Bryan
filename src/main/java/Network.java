@@ -86,6 +86,7 @@ public abstract class Network {
             }
             catch (Exception e){
                 onRecieveCallBack.accept("Conexion cerrada");
+
             }
 
         }

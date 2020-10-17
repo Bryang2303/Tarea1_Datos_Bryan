@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 //Prueba de branch 2
 public class Tarea extends Application {
     /**
@@ -18,6 +20,9 @@ public class Tarea extends Application {
      * Si el cliente es creado antes del Servidor, la conexion falla.
      */
     private boolean Rol =false;
+
+    static final Logger logger = LogManager.getLogger(Tarea.class);
+
     /***
      * El cuadro de mensajeria del chat
      */
@@ -47,6 +52,7 @@ public class Tarea extends Application {
                 comunicacion.send(mensaje);
             } catch (Exception e) {
                 Mensajes.appendText("Fallo del envio"+"\n");
+                logger.error("Error al enviar");
             }
 
         });

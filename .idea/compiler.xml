@@ -19,8 +19,8 @@
         <module name="Tarea1Datos" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Tarea1Datos" target="1.5" />
+    <bytecodeTargetLevel target="8">
+      <module name="Tarea1Datos" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
