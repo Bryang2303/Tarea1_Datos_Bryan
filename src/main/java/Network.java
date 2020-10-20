@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class Network {
+
+    static final Logger logger = LogManager.getLogger(Tarea.class);
     /**
      * Creacion del hilo
      */
@@ -86,6 +90,8 @@ public abstract class Network {
             }
             catch (Exception e){
                 onRecieveCallBack.accept("Conexion cerrada");
+                logger.error("Erroooor");
+
 
             }
 

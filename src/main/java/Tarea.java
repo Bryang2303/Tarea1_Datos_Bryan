@@ -19,7 +19,7 @@ public class Tarea extends Application {
      * Se debe ejecutar primero como true y despues como false. De manera que el Servidor se crea primero.
      * Si el cliente es creado antes del Servidor, la conexion falla.
      */
-    private boolean Rol =false;
+    private boolean Rol =true;
 
     static final Logger logger = LogManager.getLogger(Tarea.class);
 
@@ -50,6 +50,7 @@ public class Tarea extends Application {
              */
             try {
                 comunicacion.send(mensaje);
+                logger.info("Mensaje enviado");
             } catch (Exception e) {
                 Mensajes.appendText("Fallo del envio"+"\n");
                 logger.error("Error al enviar");
@@ -77,6 +78,7 @@ public class Tarea extends Application {
      */
     public void start(Stage MainStage) throws Exception {
         if (Rol ==false){
+
             MainStage.setScene(new Scene(ContenidoScene()));
             MainStage.setHeight(500);
             MainStage.setWidth(300);
@@ -101,15 +103,29 @@ public class Tarea extends Application {
                  */
                 public void handle(ActionEvent e)
                 {
-                    label1.setText("Puerto conectado: "+introPort.getText());
-                    String p=introPort.getText();
-                    int p2 = Integer.parseInt(p);
-                    Stage stage2 = new Stage();
-                    stage2.setScene(new Scene(ContenidoScene()));
-                    stage2.setHeight(500);
-                    stage2.setWidth(300);
-                    stage2.setTitle("Servidor");
-                    stage2.show();
+                    try {
+                        String p=introPort.getText();
+                        int p2 = Integer.parseInt(p);
+                        if (p2>65536){
+                            int pf = p2/0;
+
+                        }else{
+                            logger.info("Puerto seleccionado correctamente");
+                            label1.setText("Puerto conectado: "+introPort.getText());
+
+                            Stage stage2 = new Stage();
+                            stage2.setScene(new Scene(ContenidoScene()));
+                            stage2.setHeight(500);
+                            stage2.setWidth(300);
+                            stage2.setTitle("Servidor");
+                            stage2.show();
+                        }
+                    } catch (ArithmeticException ex){
+                        label1.setText("El puerto debe ser menor a 65536 y no debe estar ocupado");
+                        logger.error("Puerto invalido");
+
+                    }
+
                 }
             };
             continuar.setOnAction(event);
