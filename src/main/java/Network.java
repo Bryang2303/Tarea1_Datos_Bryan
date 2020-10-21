@@ -76,7 +76,7 @@ public abstract class Network {
                 Socket socket = Rol() ? server.accept() : new Socket(ObtenerIp(), ObtenerPuerto());
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
-
+                logger.info("Conexion exitosa");
                 this.socket = socket;
                 this.out = out;
                 socket.setTcpNoDelay(true);
@@ -90,7 +90,7 @@ public abstract class Network {
             }
             catch (Exception e){
                 onRecieveCallBack.accept("Conexion cerrada");
-                logger.error("Erroooor");
+                logger.error("La conexion se ha cerrado");
 
 
             }

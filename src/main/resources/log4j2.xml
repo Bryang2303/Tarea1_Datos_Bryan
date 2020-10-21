@@ -5,7 +5,7 @@
         <Property name="logPath">E:\\logs</Property>
     </Properties>
     <Appenders>
-        <RollingFile name="fileLogger" fileName="$(logPath)/1234 mylog.log" filePattern="$(logPath)/1234 mylog differntDate.log">
+        <RollingFile name="fileLogger" fileName="logPath/mylog.log" filePattern="logPath/mylog differntDate.log">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
