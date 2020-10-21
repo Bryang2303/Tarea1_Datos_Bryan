@@ -103,30 +103,42 @@ public class Tarea extends Application {
                  */
                 public void handle(ActionEvent e)
                 {
-
                     try {
-                        String p=introPort.getText();
-                        int p2 = Integer.parseInt(p);
-                        if (p2>65536){
-                            int pf = p2/0;
+                        String p3=introPort.getText();
+                        int p4 = Integer.parseInt(p3);
+                       
 
-                        }else{
-                            logger.info("Puerto seleccionado correctamente");
-                            label1.setText("Puerto conectado: "+introPort.getText());
+                        try {
+                            String p=introPort.getText();
+                            int p2 = Integer.parseInt(p);
+                            if (p2>65536){
+                                int pf = p2/0;
 
-                            Stage stage2 = new Stage();
-                            stage2.setScene(new Scene(ContenidoScene()));
-                            stage2.setHeight(500);
-                            stage2.setWidth(300);
-                            stage2.setTitle("Servidor");
-                            stage2.show();
+                            }else{
+                                logger.info("Puerto seleccionado correctamente");
+                                label1.setText("Puerto conectado: "+introPort.getText());
+
+                                Stage stage2 = new Stage();
+                                stage2.setScene(new Scene(ContenidoScene()));
+                                stage2.setHeight(500);
+                                stage2.setWidth(300);
+                                stage2.setTitle("Servidor");
+                                stage2.show();
+                            }
+                        } catch (ArithmeticException ex){
+                            label1.setText("El puerto debe ser menor a 65536 y no debe estar ocupado");
+                            logger.error("Puerto invalido");
+
                         }
-                    } catch (ArithmeticException ex){
-                        label1.setText("El puerto debe ser menor a 65536 y no debe estar ocupado");
+                    }    
+                    catch(NumberFormatException ex){
+                        label1.setText("El puerto debe tener valores numericos,y debe ser menor a 65536 y no debe estar ocupado ");
                         logger.error("Puerto invalido");
-
-                    }
-
+                        
+                    } 
+                    
+                    
+                    
                 }
             };
             continuar.setOnAction(event);
