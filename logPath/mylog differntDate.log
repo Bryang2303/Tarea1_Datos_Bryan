@@ -1,22 +1,8 @@
-18:52:37.091 [Thread-3] INFO  Tarea - Conexion exitosa
-18:52:37.105 [Thread-3] INFO  Tarea - Conexion exitosa
-18:52:47.029 [JavaFX Application Thread] INFO  Tarea - Direccion ip valida
-18:52:50.636 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:52:53.791 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:52:59.373 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:01.214 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:02.374 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:02.603 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:02.799 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:03.094 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:03.293 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:03.486 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:03.690 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:03.883 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:04.102 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:04.285 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:04.494 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:04.688 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:04.873 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
-18:53:07.928 [Thread-3] ERROR Tarea - La conexion se ha cerrado
-18:53:07.932 [Thread-3] ERROR Tarea - La conexion se ha cerrado
+21:02:25.898 [Thread-3] INFO  Tarea - Conexion exitosa
+21:02:25.949 [Thread-3] INFO  Tarea - Conexion exitosa
+21:03:02.391 [JavaFX Application Thread] ERROR Tarea - Direccion ip invalida
+21:03:15.805 [JavaFX Application Thread] INFO  Tarea - Direccion ip valida
+21:03:32.109 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
+21:03:38.368 [JavaFX Application Thread] INFO  Tarea - Mensaje enviado
+21:03:50.868 [Thread-3] ERROR Tarea - La conexion se ha cerrado
+21:03:50.880 [Thread-3] ERROR Tarea - La conexion se ha cerrado

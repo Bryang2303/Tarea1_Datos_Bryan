@@ -72,7 +72,7 @@ public abstract class Network {
              * Tratar de conectarse con el Server. Se inicia un nuevo servidor con el puerto
              * En el cliente se crea un nuevo socket con la direccion Ip y el puerto, tratando de realizar la conexion
              */
-            try(ServerSocket server = Rol() ? new ServerSocket(ObtenerPuerto()) : null;
+            try(ServerSocket server = Rol() ? new ServerSocket(ObtenerPuerto()) : null;           //   ===== Excepcion 2 : Si la conexion con el server falla(si se ejecuta primero el cliente) =====
                 Socket socket = Rol() ? server.accept() : new Socket(ObtenerIp(), ObtenerPuerto());
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {

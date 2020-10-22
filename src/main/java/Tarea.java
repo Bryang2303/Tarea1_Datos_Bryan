@@ -49,7 +49,7 @@ public class Tarea extends Application {
              * Se mantiene en constante comunicacion cada vez que se envia un mensaje, si falla, un mensaje de error sera enviado
              */
             try {
-                comunicacion.send(mensaje);
+                comunicacion.send(mensaje);                  //   ===== Excepcion 1 : Si el mensaje no encuentra destinatario el envío falla =====
                 logger.info("Mensaje enviado");
             } catch (Exception e) {
                 Mensajes.appendText("Fallo del envio"+"\n");
@@ -97,7 +97,7 @@ public class Tarea extends Application {
                 public void handle(ActionEvent e)
                 {
 
-                    try {
+                    try {                               //   ===== Excepcion 4 : Si el cliente ingresa una ip en la que alguno de los numeros sea mayor a 255 o menor a 1 =====
                         String p=introPort.getText();
                         String[] parts = p.split("[.]");
                         String part1 = parts[0];
@@ -154,10 +154,10 @@ public class Tarea extends Application {
                  */
                 public void handle(ActionEvent e)
                 {
-                    try {
+                    try {                          //   ===== Excepcion 5 : Si al iniciar el server se ingresa un valor con carácteres no numéricos como puerto =====
                         String text=introPort.getText();
                         int number = Integer.parseInt(text);
-                        try {
+                        try {                                   //   ===== Excepcion 3 : Si al escribir el puerto se recibe un valor mayor al máximo de puertos de red(65536) =====
                             String p=introPort.getText();
                             int p2 = Integer.parseInt(p);
                             if (p2>65536){
