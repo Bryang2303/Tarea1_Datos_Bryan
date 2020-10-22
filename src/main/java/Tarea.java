@@ -78,11 +78,58 @@ public class Tarea extends Application {
      */
     public void start(Stage MainStage) throws Exception {
         if (Rol ==false){
-
-            MainStage.setScene(new Scene(ContenidoScene()));
-            MainStage.setHeight(500);
+            MainStage.setTitle("Dirección IP del Servidor");
             MainStage.setWidth(300);
-            MainStage.setTitle("Cliente");
+            MainStage.setHeight(118);
+            VBox root2 = new VBox();
+            Label label1 = new Label("Ingrese una dirección ip válida");
+            Button continuar = new Button("Continuar");
+            TextField introPort = new TextField();
+            root2.getChildren().addAll(label1,introPort,continuar);
+            EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+                /**
+                 *Evento que toma el puerto escrito en la ventana activada por el Servidor
+                 */
+                public void handle(ActionEvent e)
+                {
+
+                    try {
+                        String p=introPort.getText();
+                        String[] parts = p.split("[.]");
+                        String part1 = parts[0];
+                        String part2 = parts[1];
+                        String part3 = parts[2];
+                        String part4 = parts[3];
+                        int p1 = Integer.parseInt(part1);
+                        int p2 = Integer.parseInt(part2);
+                        int p3 = Integer.parseInt(part3);
+                        int p4 = Integer.parseInt(part4);
+                        int min=1;
+                        int max=256;
+                        if (p1<max&&p1>min && p2<max&&p2>min && p3<max&&p3>min && p4<max&&p4>min){
+                            logger.info("Direccion ip valida");
+                            Stage stage2 = new Stage();
+                            stage2.setScene(new Scene(ContenidoScene()));
+                            stage2.setHeight(500);
+                            stage2.setWidth(300);
+                            stage2.setTitle("Cliente");
+                            stage2.show();
+                        }else{
+                            int pf = p2/0;
+
+                        }
+                    } catch (ArithmeticException ex){
+                        label1.setText("Direccion ip invalida");
+                        logger.error("Direccion ip invalida");
+
+                    }
+
+                }
+            };
+            continuar.setOnAction(event);
+            Scene scene2 = new Scene(root2);
+            scene2.getStylesheets().add("Styles/style1.css");
+            MainStage.setScene(scene2);
             MainStage.show();
         }
         /**
@@ -103,30 +150,36 @@ public class Tarea extends Application {
                  */
                 public void handle(ActionEvent e)
                 {
-
                     try {
-                        String p=introPort.getText();
-                        int p2 = Integer.parseInt(p);
-                        if (p2>65536){
-                            int pf = p2/0;
+                        String text=introPort.getText();
+                        int number = Integer.parseInt(text);
+                        try {
+                            String p=introPort.getText();
+                            int p2 = Integer.parseInt(p);
+                            if (p2>65536){
+                                int pf = p2/0;
 
-                        }else{
-                            logger.info("Puerto seleccionado correctamente");
-                            label1.setText("Puerto conectado: "+introPort.getText());
+                            }else{
+                                logger.info("Puerto seleccionado correctamente");
+                                label1.setText("Puerto conectado: "+introPort.getText());
 
-                            Stage stage2 = new Stage();
-                            stage2.setScene(new Scene(ContenidoScene()));
-                            stage2.setHeight(500);
-                            stage2.setWidth(300);
-                            stage2.setTitle("Servidor");
-                            stage2.show();
+                                Stage stage2 = new Stage();
+                                stage2.setScene(new Scene(ContenidoScene()));
+                                stage2.setHeight(500);
+                                stage2.setWidth(300);
+                                stage2.setTitle("Servidor");
+                                stage2.show();
+                            }
+                        } catch (ArithmeticException ex){
+                            label1.setText("El puerto debe ser menor a 65536 y no debe estar ocupado");
+                            logger.error("Puerto invalido");
+
                         }
-                    } catch (ArithmeticException ex){
-                        label1.setText("El puerto debe ser menor a 65536 y no debe estar ocupado");
-                        logger.error("Puerto invalido");
-
                     }
-
+                    catch(NumberFormatException ex){
+                        label1.setText("El puerto debe tener valores numericos");
+                        logger.error("El puerto debe ser un numero valido");
+                    }
                 }
             };
             continuar.setOnAction(event);
